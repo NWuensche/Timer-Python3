@@ -23,6 +23,11 @@ class Application(tk.Frame):
         self.add["command"] = self.addMinutes
         self.add.pack(side="top")
 
+        self.subtract = tk.Button(self)
+        self.subtract["text"] = "-"
+        self.subtract["command"] = self.subtractMinutes
+        self.subtract.pack(side="top")
+
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
         self.quit.pack(side="bottom")
@@ -32,6 +37,10 @@ class Application(tk.Frame):
 
     def addMinutes(self):
         self.minutes += 5
+        self.time["text"] = self.getTime()
+
+    def subtractMinutes(self):
+        self.minutes -= 5
         self.time["text"] = self.getTime()
 
     def getTime(self):
