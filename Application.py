@@ -14,36 +14,30 @@ class Application(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        self.hi_there = tk.Button(self)
-        self.hi_there["text"] = "Hello World\n(click me)"
-        self.hi_there["command"] = self.say_hi
-        self.hi_there.pack(side="top")
-
         self.time = tk.Label(self)
         self.time["text"] = self.getTime()
-        self.time.pack(side="top")
+        self.time.grid(row=0, columnspan=2)
 
         self.add = tk.Button(self)
         self.add["text"] = "+"
         self.add["command"] = self.addMinutes
-        self.add.pack(side="top")
+        self.add.grid(row=1, column=0)
 
         self.subtract = tk.Button(self)
         self.subtract["text"] = "-"
         self.subtract["command"] = self.subtractMinutes
-        self.subtract.pack(side="top")
+        self.subtract.grid(row=1, column=1)
 
         self.start = tk.Button(self)
         self.start["text"] = "start"
         self.start["command"] = self.startTimer
-        self.start.pack(side="top")
+        self.start.grid(row=2, column=0)
 
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.stopTimer)
-        self.quit.pack(side="bottom")
+        self.quit.grid(row=2, column=1)
 
-    def say_hi(self):
-        print("hi there, everyone!")
+        self.grid
 
     def addMinutes(self):
         self.minutes += 5
@@ -73,7 +67,6 @@ class Application(tk.Frame):
                 self.minutes -= 1
             self.seconds = (self.seconds - 1) % 60
             self.time["text"] = self.getTime()
-            print(str(self.seconds))
             time.sleep(1)
 
     def getTime(self):
