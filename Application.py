@@ -1,5 +1,6 @@
 import tkinter as tk
 import threading
+import time
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -7,6 +8,7 @@ class Application(tk.Frame):
         self.master = master
         self.minutes = 0
         self.seconds = 0
+        self.tick = threading.Timer(1.0, self.updateSeconds)
         self.pack()
         self.create_widgets()
 
@@ -36,7 +38,7 @@ class Application(tk.Frame):
         self.start.pack(side="top")
 
         self.quit = tk.Button(self, text="QUIT", fg="red",
-                              command=self.master.destroy)
+                              command=self.stopTimer)
         self.quit.pack(side="bottom")
 
     def say_hi(self):
@@ -47,18 +49,25 @@ class Application(tk.Frame):
         self.time["text"] = self.getTime()
 
     def subtractMinutes(self):
-        self.minutes -= 5
-        self.time["text"] = self.getTime()
+        if(self.minutes >= 5):
+            self.minutes -= 5
+            self.time["text"] = self.getTime()
 
     def startTimer(self):
-        tick = threading.Timer(1.0, self.updateSeconds)
-        tick.start()
+        self.tick.start()
+
+    def stopTimer(self):
+        self.master.destroy()
+        self.tick.cancel()
 
     def updateSeconds(self):
-        self.seconds = (self.seconds - 1) % 60
-        self.time["text"] = self.getTime()
-        print(str(self.seconds))
-        self.startTimer()
+        while(True):
+            if(self.seconds == 0):
+                self.minutes -= 1
+            self.seconds = (self.seconds - 1) % 60
+            self.time["text"] = self.getTime()
+            print(str(self.seconds))
+            time.sleep(1)
 
     def getTime(self):
         return self.getMinutes() + self.getSeconds()
