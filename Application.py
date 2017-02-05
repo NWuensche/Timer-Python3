@@ -15,7 +15,7 @@ class Application(tk.Frame):
         self.hi_there.pack(side="top")
 
         self.time = tk.Label(self)
-        self.time["text"] = self.getMinutes() + self.getSeconds()
+        self.time["text"] = self.getTime()
         self.time.pack(side="top")
 
         self.add = tk.Button(self)
@@ -32,7 +32,10 @@ class Application(tk.Frame):
 
     def addMinutes(self):
         self.minutes += 5
-        self.time["text"] = self.getMinutes() + self.getSeconds()
+        self.time["text"] = self.getTime()
+
+    def getTime(self):
+        return self.getMinutes() + self.getSeconds()
 
     def getMinutes(self):
         if(self.minutes >= 10):
