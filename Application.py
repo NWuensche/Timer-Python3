@@ -1,6 +1,7 @@
 import tkinter as tk
 import threading
 import time
+import pyglet
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -63,6 +64,12 @@ class Application(tk.Frame):
     def updateSeconds(self):
         while(True):
             if(self.seconds == 0):
+                if(self.minutes == 0):
+                    bell = pyglet.media.load('bell.wav')
+                    bell.play()
+                    self.tick.cancel()
+                    self.tick = threading.Timer(1.0, self.updateSeconds)
+                    break
                 self.minutes -= 1
             self.seconds = (self.seconds - 1) % 60
             self.time["text"] = self.getTime()
@@ -78,4 +85,6 @@ class Application(tk.Frame):
         return "0" + str(self.minutes)
 
     def getSeconds(self):
-        return ":" + str(self.seconds)
+        if(self.seconds >= 10):
+            return ":" + str(self.seconds)
+        return ":0" + str(self.seconds)
